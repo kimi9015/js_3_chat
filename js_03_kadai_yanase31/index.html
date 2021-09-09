@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>筋トレ記録アプリ</title>
+</head>
+<body>
+
+<!-- タイトル -->
+<h1>筋トレ記録アプリ〜継続は力なり〜</h1>
+
+
+<!-- 鍛えた部位 -->
+
+<div class="yokonarabe1">
+
+    <div class="bui" id="kitaetabui">
+        <h2>鍛えた部位</h2>
+
+        <div class="boxes">
+            <input type="checkbox" id="box-1" name="bui" value="胸">
+            <label for="box-1">胸</label>
+
+            <input type="checkbox" id="box-2" name="bui" value="肩">
+            <label for="box-2">肩</label>
+
+            <input type="checkbox" id="box-3" name="bui" value="腕">
+            <label for="box-3">腕</label>
+
+            <input type="checkbox" id="box-4" name="bui" value="腹筋">
+            <label for="box-4">腹筋</label>
+
+            <input type="checkbox" id="box-5" name="bui" value="脚">
+            <label for="box-5">脚</label>
+        </div>
+
+    </div>
+
+   
+ <!-- 筋トレしたキャラを選択--> 
+
+     <div class="youbi_haba">
+
+        <div class="cp_ipselect cp_sl04">
+            <select name="name1" id="checkbox_chara">
+                <option value="" hidden>誰が筋トレした？</option>
+                <option value="ロビンマスク">ロビンマスク</option>
+                <option value="ウォーズマン">ウォーズマン</option>
+                <option value="ラーメンマン">ラーメンマン</option>
+                <option value="テリーマン">テリーマン</option>
+                <option value="バッファローマン">バッファローマン</option>
+                <option value="アシュラマン">アシュラマン</option>
+                <option value="柳瀬公秀">柳瀬公秀</option>
+            </select>
+        </div>
+
+        <!-- 記録する・クリアボタン -->
+        <button class="button_kiroku" id="kirokusuru">記録する！</button>
+        <!-- <button class="button_clear" id="kuriasuru">Clear</button> -->
+
+    </div> 
+
+ 
+<!-- 有酸素運動（エアロバイク） -->
+
+
+    <div style="text-align: center;" class="yu-sanso">
+
+        <h2>有酸素運動-エアロバイク-（秒）</h2>
+
+            <p class="sub_title">追い込み・休憩をテンポよく！</p>
+
+            <div class="container mt-5">
+                <div id="PassageArea">0</div>
+            </div>
+            
+            <div class="container mt-5">
+                <input type="number" id="number" min=1 value=5 style="width:80px;">
+            </div>
+            
+            <div class="container mt-5">
+                <button class="btn btn-primary" id="startcount" onclick="startShowing();">カウント開始</button>
+                <button class="btn btn-primary" id="endcount" onclick="stopShowing();">カウント停止</button>
+            </div>
+        </div>
+
+            <audio id="sound-file1" preload="auto">
+                <source src="beep1.mp3" type="audio/mp3">
+            </audio>
+
+            <audio id="sound-file2" preload="auto">
+                <source src="beep2.mp3" type="audio/mp3">
+            </audio>
+        
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- 鍛えた部位を割合で表示-->
+
+<div class="kekka"> 
+
+    <table id="list">
+        <tr>
+            <th>キャラクター</th>
+            <th>筋トレで鍛えた部位</th>
+            <th>エアロバイクを漕いだ時間（分）</th>
+        </tr>
+    </table>
+<!-- 
+    <canvas id="rank_mune" style="position: relative; width: 50%; height: 50%;"></canvas>
+    <canvas id="rank_kata" style="position: relative; width: 50%; height: 50%;"></canvas>
+    <canvas id="rank_ude" style="position: relative; width: 50%; height: 50%;"></canvas>
+    <canvas id="rank_fukkinn" style="position: relative; width: 50%; height: 50%;"></canvas>
+    <canvas id="rank_ashi" style="position: relative; width: 50%; height: 50%;"></canvas>
+
+
+ -->
+
+
+    <!-- エアロバイクを漕いだ時間の累計を棒グラフで表示_キャラクター別 -->
+    <canvas id="stage"></canvas>
+
+</div>
+
+
+<!-- chart.js 読み込み -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+<!-- jQuery読み込み -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- 以下Firebase -->
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase.js"></script>
+
+<!--  Firebase configuration-->
+
+<script>
+
+// Firebase configuration
+var firebaseConfig = {
+      apiKey: "AIzaSyBckCurDU9K5mw6SskvqhrbdZQQn5Q1r7g",
+      authDomain: "workout-app-d2cba.firebaseapp.com",
+      databaseURL: "https://workout-app-d2cba-default-rtdb.firebaseio.com/",
+      projectId: "workout-app-d2cba",
+      storageBucket: "workout-app-d2cba.appspot.com",
+      messagingSenderId: "428342206562",
+      appId: "1:428342206562:web:eaffe8671bc0a4beba713b"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //firebaseのデーターベース（保存させる場所）を使いますよ
+
+    const newPostRef = firebase.database().ref();
+
+
+</script>
+
+
+<!-- JS読み込み -->
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
